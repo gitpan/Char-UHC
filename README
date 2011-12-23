@@ -334,5 +334,5 @@ See also code table:
 
 SEE ALSO
 
-perl, Sjis.pm
+perl, UHC.pm, Euhc.pm, jacode.pl
 

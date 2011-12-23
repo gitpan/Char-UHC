@@ -18,7 +18,7 @@ use Euhc;
 
 BEGIN { eval q{ use vars qw($VERSION) } }
 
-$VERSION = sprintf '%d.%02d', q$Revision: 0.78 $ =~ m/(\d+)/oxmsg;
+$VERSION = sprintf '%d.%02d', q$Revision: 0.79 $ =~ m/(\d+)/oxmsg;
 
 # poor Symbol.pm - substitute of real Symbol.pm
 BEGIN {
@@ -5161,7 +5161,7 @@ incompatible upgrade part to traditional Perl should be rewound.
 You need write 'use UHC;' in your script.
 
   ---------------------------------
-  Before      After
+  Before      You do
   ---------------------------------
   (nothing)   use UHC;
   ---------------------------------
@@ -5248,10 +5248,12 @@ Also POSIX-style character classes.
   [:digit:]     [\x30-\x39]
   [:graph:]     [\x21-\x7F]
   [:lower:]     [\x61-\x7A]
+                [\x41-\x5A\x61-\x7A]     (/i modifier)
   [:print:]     [\x20-\x7F]
   [:punct:]     [\x21-\x2F\x3A-\x3F\x40\x5B-\x5F\x60\x7B-\x7E]
   [:space:]     [\x09\x0A\x0B\x0C\x0D\x20]
   [:upper:]     [\x41-\x5A]
+                [\x41-\x5A\x61-\x7A]     (/i modifier)
   [:word:]      [\x30-\x39\x41-\x5A\x5F\x61-\x7A]
   [:xdigit:]    [\x30-\x39\x41-\x46\x61-\x66]
   [:^alnum:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x30-\x39\x41-\x5A\x61-\x7A])
@@ -5262,10 +5264,12 @@ Also POSIX-style character classes.
   [:^digit:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x30-\x39])
   [:^graph:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x21-\x7F])
   [:^lower:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x61-\x7A])
+                (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE])           (/i modifier)
   [:^print:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x20-\x7F])
   [:^punct:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x21-\x2F\x3A-\x3F\x40\x5B-\x5F\x60\x7B-\x7E])
   [:^space:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x09\x0A\x0B\x0C\x0D\x20])
   [:^upper:]    (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x41-\x5A])
+                (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE])           (/i modifier)
   [:^word:]     (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x30-\x39\x41-\x5A\x5F\x61-\x7A])
   [:^xdigit:]   (?:[\x81-\xFE][\x00-\xFF]|[^\x81-\xFE\x30-\x39\x41-\x46\x61-\x66])
   ---------------------------------------------------------------------------
@@ -5328,7 +5332,7 @@ functions.
 
 =head1 Un-Escaping bytes::* Functions (UHC.pm provides)
 
-UHC.pm remove 'bytes::' at head of function name.
+UHC.pm removes 'bytes::' at head of function name.
 
   ------------------------------------
   Before           After
@@ -5343,7 +5347,7 @@ UHC.pm remove 'bytes::' at head of function name.
 
 =head1 Un-Escaping \ Of \N, \p, \P and \X (UHC.pm provides)
 
-UHC.pm remove '\' at head of alphanumeric regexp metasymbols \N, \p, \P
+UHC.pm removes '\' at head of alphanumeric regexp metasymbols \N, \p, \P
 and \X. By this method, you can avoid the trap of the abstraction.
 
   ------------------------------------
@@ -5365,37 +5369,37 @@ and \X. By this method, you can avoid the trap of the abstraction.
 
 Insert 'Euhc::' instead of '-' of operator.
 
-  ---------------------------------
-  Before      After
-  ---------------------------------
-  -r          Euhc::r
-  -w          Euhc::w
-  -x          Euhc::x
-  -o          Euhc::o
-  -R          Euhc::R
-  -W          Euhc::W
-  -X          Euhc::X
-  -O          Euhc::O
-  -e          Euhc::e
-  -z          Euhc::z
-  -f          Euhc::f
-  -d          Euhc::d
-  -l          Euhc::l
-  -p          Euhc::p
-  -S          Euhc::S
-  -b          Euhc::b
-  -c          Euhc::c
-  -t          -t
-  -u          Euhc::u
-  -g          Euhc::g
-  -k          Euhc::k
-  -T          Euhc::T
-  -B          Euhc::B
-  -s          Euhc::s
-  -M          Euhc::M
-  -A          Euhc::A
-  -C          Euhc::C
-  ---------------------------------
+  --------------------------------------------------------------------------
+  Before   After      Meaning
+  --------------------------------------------------------------------------
+  -r       Euhc::r   File is readable by effective uid/gid
+  -w       Euhc::w   File is writable by effective uid/gid
+  -x       Euhc::x   File is executable by effective uid/gid
+  -o       Euhc::o   File is owned by effective uid
+  -R       Euhc::R   File is readable by real uid/gid
+  -W       Euhc::W   File is writable by real uid/gid
+  -X       Euhc::X   File is executable by real uid/gid
+  -O       Euhc::O   File is owned by real uid
+  -e       Euhc::e   File exists
+  -z       Euhc::z   File has zero size
+  -f       Euhc::f   File is a plain file
+  -d       Euhc::d   File is a directory
+  -l       Euhc::l   File is a symbolic link
+  -p       Euhc::p   File is a named pipe (FIFO)
+  -S       Euhc::S   File is a socket
+  -b       Euhc::b   File is a block special file
+  -c       Euhc::c   File is a character special file
+  -t       -t         Filehandle is opened to a tty
+  -u       Euhc::u   File has setuid bit set
+  -g       Euhc::g   File has setgid bit set
+  -k       Euhc::k   File has sticky bit set
+  -T       Euhc::T   File is a text file
+  -B       Euhc::B   File is a binary file (opposite of -T)
+  -s       Euhc::s   File has nonzero size (returns size in bytes)
+  -M       Euhc::M   Age of file (at startup) in days since modification
+  -A       Euhc::A   Age of file (at startup) in days since last access
+  -C       Euhc::C   Age of file (at startup) in days since inode change
+  --------------------------------------------------------------------------
 
 As of Perl 5.00503, as a form of purely syntactic sugar, you can stack file
 test operators, in a way that -w -x $file is equivalent to -x $file && -w _ .
@@ -5422,16 +5426,38 @@ Back to and see 'Escaping Your Script'. Enjoy hacking!!
 You need write 'UHC::' at head of function name when you want character
 oriented function. See 'Character Oriented Functions'.
 
-  ---------------------------------
-  Before      After
-  ---------------------------------
-  ord         UHC::ord
-  reverse     UHC::reverse
-  length      UHC::length
-  substr      UHC::substr
-  index       UHC::index
-  rindex      UHC::rindex
-  ---------------------------------
+  --------------------------------------------------------
+  Function   Character Oriented   Description
+  --------------------------------------------------------
+  ord        UHC::ord
+  reverse    UHC::reverse
+  length     UHC::length
+  substr     UHC::substr
+  index      UHC::index          See 'About Indexes'
+  rindex     UHC::rindex         See 'About Rindexes'
+  --------------------------------------------------------
+
+  About Indexes
+  -------------------------------------------------------------------------
+  Function       Works as    Returns as   Description
+  -------------------------------------------------------------------------
+  index          Character   Byte         JPerl semantics (most useful)
+  (same as Euhc::index)
+  UHC::index    Character   Character    Character-oriented semantics
+  CORE::index    Byte        Byte         Byte-oriented semantics
+  (nothing)      Byte        Character    (most useless)
+  -------------------------------------------------------------------------
+
+  About Rindexes
+  -------------------------------------------------------------------------
+  Function       Works as    Returns as   Description
+  -------------------------------------------------------------------------
+  rindex         Character   Byte         JPerl semantics (most useful)
+  (same as Euhc::rindex)
+  UHC::rindex   Character   Character    Character-oriented semantics
+  CORE::rindex   Byte        Byte         Byte-oriented semantics
+  (nothing)      Byte        Character    (most useless)
+  -------------------------------------------------------------------------
 
 =head1 Character Oriented Functions
 
@@ -5970,7 +5996,7 @@ programming environment like at that time.
 
  Programming Perl, Second Edition
  By Larry Wall, Tom Christiansen, Randal L. Schwartz
- January 1900 (really so?)
+ October 1996
  Pages: 670
  ISBN 10: 1-56592-149-6 | ISBN 13: 9781565921498
  http://shop.oreilly.com/product/9781565921498.do
@@ -5981,6 +6007,16 @@ programming environment like at that time.
  Pages: 1104
  ISBN 10: 0-596-00027-8 | ISBN 13: 9780596000271
  http://shop.oreilly.com/product/9780596000271.do
+
+ Programming Perl, 4th Edition
+ By: Tom Christiansen, brian d foy, Larry Wall, Jon Orwant
+ Publisher: O'Reilly Media
+ Formats: Print, Ebook, Safari Books Online
+ Released: February 2012
+ Pages: 1054
+ Print ISBN: 978-0-596-00492-7 | ISBN 10: 0-596-00492-3
+ Ebook ISBN: 978-1-4493-9890-3 | ISBN 10: 1-4493-9890-1
+ http://shop.oreilly.com/product/9780596004927.do
 
  Perl Cookbook, Second Edition
  By Tom Christiansen, Nathan Torkington
