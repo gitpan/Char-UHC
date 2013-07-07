@@ -29,7 +29,7 @@ BEGIN {
 # (and so on)
 
 BEGIN { eval q{ use vars qw($VERSION) } }
-$VERSION = sprintf '%d.%02d', q$Revision: 0.90 $ =~ /(\d+)/oxmsg;
+$VERSION = sprintf '%d.%02d', q$Revision: 0.91 $ =~ /(\d+)/oxmsg;
 
 BEGIN { CORE::require Char::Euhc; }
 
@@ -500,7 +500,7 @@ sub Char::UHC::escape_script {
         # in Chapter 5: Pattern Matching
         # of ISBN 978-0-596-00492-7 Programming Perl 4th Edition.
 
-        $e_script .= sprintf("use Char::Euhc %s;\n", $Char::UHC::VERSION); # require run-time routines version
+        $e_script .= sprintf("use Char::Euhc %s.0;\n", $Char::UHC::VERSION); # require run-time routines version
 
         # use Char::UHC version qw(ord reverse getc);
         $function_ord     = 'ord';
@@ -6819,12 +6819,6 @@ Char/UHC.pm removes 'bytes::' at head of function name.
   bytes::substr    substr    Byte
   ---------------------------------------
 
-=head1 Escaping Built-in Standard Module (Char/Euhc.pm provides)
-
-Char/Euhc.pm does "BEGIN { unshift @INC, '/Perl/site/lib/Char::UHC' }" at head.
-Store the standard module modified for Char::UHC software in this directory to
-override built-in standard modules.
-
 =head1 Escaping Standard Module Content (You do)
 
 You need copy built-in standard module to /Perl/site/lib/Char::UHC and change
@@ -7562,3 +7556,4 @@ I am thankful to all persons.
 
 =cut
 
+# Did you fun enough? ^o^)
