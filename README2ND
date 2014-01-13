@@ -1,13 +1,11 @@
 NAME
 
-       Char::UHC - Source code filter for UHC script (Imitation JPerl)
+       UHC - Source code filter for UHC script (Imitation JPerl)
 
 SYNOPSIS
     In your script:
 
-      use Char::UHC; # CPAN formal style
-         or
-      use UHC; # casual style
+      use UHC;
 
     At command prompt:
 
