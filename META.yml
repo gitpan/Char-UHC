@@ -1,7 +1,7 @@
 --- #YAML:1.0
-name: UHC
+name: Char::UHC
 abstract: Source code filter for UHC script (Imitation JPerl)
-version: 0.96
+version: 0.97
 author:
   - INABA Hitoshi <ina@cpan.org>
 license: perl
